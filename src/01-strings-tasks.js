@@ -218,8 +218,22 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let top = '┌┐\n';
+  let bottom = '└┘\n';
+
+  if (width > 2) {
+    top = `┌${repeatString('─', width - 2)}┐\n`;
+    bottom = `└${repeatString('─', width - 2)}┘\n`;
+  }
+
+  let center = '';
+
+  if (height > 2) {
+    center = repeatString(`│${repeatString(' ', width - 2)}│\n`, height - 2);
+  }
+
+  return top + center + bottom;
 }
 
 
@@ -288,8 +302,18 @@ function isString(value) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  let id;
+  if (value[value.length - 1] === '♣') id = 0;
+  if (value[value.length - 1] === '♦') id = 13;
+  if (value[value.length - 1] === '♥') id = 26;
+  if (value[value.length - 1] === '♠') id = 39;
+  if (value[0] === '1') return id + 9;
+  if (value[0] === 'J') return id + 10;
+  if (value[0] === 'Q') return id + 11;
+  if (value[0] === 'K') return id + 12;
+  id += value[0] === 'A' ? 0 : +value[0] - 1;
+  return id;
 }
 
 
